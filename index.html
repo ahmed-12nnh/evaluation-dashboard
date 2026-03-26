@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التقييم | Dashboard</title>
+    <!-- Google Fonts: Cairo -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <!-- Supabase JS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Background Animated Shapes -->
+    <div class="bg-shape shape1"></div>
+    <div class="bg-shape shape2"></div>
+    <div class="bg-shape shape3"></div>
+
+    <div class="app-container">
+        
+        <!-- Sidebar: List of Applicants -->
+        <aside class="sidebar glass-panel">
+            <div class="sidebar-header">
+                <h2>لجنة التقييم 👋</h2>
+                <p>قائمة المتقدمين</p>
+            </div>
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="ابحث عن متقدم...">
+            </div>
+            <ul id="applicantsList" class="applicants-list">
+                <!-- Javascript will populate this -->
+                <div class="loader">جاري جلب البيانات...</div>
+            </ul>
+        </aside>
+
+        <!-- Main Content: Applicant CV -->
+        <main class="main-content glass-panel" id="mainContent">
+            <div id="welcomeScreen" class="welcome-screen">
+                <h2>👈 يرجى اختيار متقدم من القائمة للبدء</h2>
+            </div>
+            
+            <div id="cvView" class="cv-view hidden">
+                <div class="cv-header">
+                    <div class="avatar-placeholder">👤</div>
+                    <div class="cv-title">
+                        <h1 id="cvName">اسم المتقدم</h1>
+                        <span id="cvTask" class="badge">المهمة الحالية</span>
+                    </div>
+                </div>
+                
+                <div class="cv-body">
+                    <div class="info-card">
+                        <h3>📅 تاريخ الميلاد</h3>
+                        <p id="cvDob">1990-01-01</p>
+                    </div>
+                    <div class="info-card">
+                        <h3>🎓 التحصيل الدراسي</h3>
+                        <p id="cvEducation">بكالوريوس</p>
+                    </div>
+                    <div class="info-card">
+                        <h3>📍 عنوان السكن</h3>
+                        <p id="cvAddress">بغداد</p>
+                    </div>
+                </div>
+
+                <div class="cv-actions">
+                    <p class="action-hint">بعد قرائتك لمعلومات المتقدم، يمكنك الانتقال لتقييمه مباشرة.</p>
+                    <a href="#" id="evalBtn" target="_blank" class="glow-btn">📝 الانتقال لاستمارة التقييم (Google Form)</a>
+                </div>
+            </div>
+        </main>
+
+    </div>
+
+    <!-- Admin Gear Icon -->
+    <button id="adminToggleBtn" class="admin-toggle-btn" title="لوحة التحكم">⚙️</button>
+
+    <!-- Admin Modal (Hidden by default) -->
+    <div id="adminModal" class="modal hidden">
+        <div class="modal-content glass-panel">
+            <span id="closeAdminModal" class="close-btn">&times;</span>
+            <h2>🔒 لوحة التحكم (إضافة وتعديل)</h2>
+            <p style="margin-bottom: 20px; font-size:0.9rem; color:#aaa;">هذه اللوحة خاصة بمدير النظام لإضافة متقدمين جدد.</p>
+            
+            <form id="addApplicantForm">
+                <div class="input-group">
+                    <label>الاسم الرباعي أو الثلاثي</label>
+                    <input type="text" id="addName" required>
+                </div>
+                <div class="input-group">
+                    <label>تاريخ الميلاد</label>
+                    <input type="date" id="addDob" required>
+                </div>
+                <div class="input-group">
+                    <label>التحصيل الدراسي</label>
+                    <input type="text" id="addEdu" required>
+                </div>
+                <div class="input-group">
+                    <label>المهمة الحالية</label>
+                    <input type="text" id="addTask" required>
+                </div>
+                <div class="input-group">
+                    <label>عنوان السكن</label>
+                    <input type="text" id="addAddress" required>
+                </div>
+                <div class="input-group">
+                    <label>رابط استمارة التقييم (Google Form الخاص به)</label>
+                    <input type="url" id="addFormUrl" value="https://docs.google.com/forms/..." required>
+                </div>
+                
+                <button type="submit" class="submit-btn">✅ إضافة المتقدم</button>
+                <div id="adminFeedback" style="margin-top:10px; color:#2ecc71; display:none;">تمت الإضافة بنجاح!</div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Password Prompt Modal -->
+    <div id="passwordModal" class="modal hidden">
+        <div class="modal-content glass-panel" style="max-width:400px; text-align:center;">
+            <h2>أدخل الرقم السري 🔑</h2>
+            <input type="password" id="adminPassword" placeholder="اكتب 1234 هنا للتجربة" style="width:100%; margin:20px 0; padding:10px; border-radius:8px;">
+            <button id="verifyPassBtn" class="submit-btn" style="width:100%">دخول</button>
+            <button id="cancelPassBtn" class="close-btn" style="margin-top:10px; font-size:16px;">إلغاء</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
